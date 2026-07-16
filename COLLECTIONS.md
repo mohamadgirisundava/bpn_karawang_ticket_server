@@ -109,17 +109,19 @@ Akun petugas/admin.
 | `avatar` | file | ❌ | Foto profil |
 | `role` | select | ✅ | `admin`, `officer` |
 | `assigned_counter` | relation → `counters` | ❌ | Loket yang ditugaskan |
-| `is_on_duty` | bool | ❌ | Status sedang bertugas |
+| `is_on_duty` | bool | ❌ | Status sedang bertugas (shift berjalan) |
+| `is_active` | bool | ❌ | Akun aktif/nonaktif (dikontrol Admin). Nonaktif = tidak bisa login sama sekali. |
 | `desk_number` | number | ❌ | Nomor meja petugas |
 | `verified` / `emailVisibility` | bool | — | System field auth |
 | `created` / `updated` | autodate | — | Timestamp otomatis |
 
 **Index:** unique pada `tokenKey`, unique pada `email`
 
-**Rules:**
-- List/View: hanya diri sendiri (`id = @request.auth.id`)
-- Create: publik
-- Update/Delete: hanya diri sendiri
+**Rules** (lihat migration `1784209128_updated_users.js` dan `1784209859_updated_users.js`):
+- List/View/Update: diri sendiri, **atau** `role = "admin"` (admin bisa kelola akun petugas lain)
+- Create: hanya admin yang sudah login (`@request.auth.role = "admin"`) — bukan publik. Superuser pertama dibuat lewat Admin UI (`/_/`), bukan lewat collection ini.
+- Delete: hanya admin
+- **`authRule`**: `is_active = true` — akun dengan `is_active = false` gagal login walau password benar.
 
 ---
 
