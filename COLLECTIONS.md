@@ -125,6 +125,34 @@ Akun petugas/admin.
 
 ---
 
+## `prayer_schedule` (base)
+
+Jadwal sholat harian, di-sync dari [api.myquran.com](https://api.myquran.com) (sumber Kemenag RI) oleh script `bpn_karawang_display`'s `scripts/sync-prayer-schedule.mjs` — bukan diisi manual. Web Display TV baca collection ini buat jadwal sholat + trigger audio adzan, biar nggak perlu hit API eksternal tiap render (server tetap bisa jalan offline selama datanya sudah pernah di-sync).
+
+| Field | Tipe | Required | Keterangan |
+|---|---|---|---|
+| `id` | text | ✅ (auto) | ID record |
+| `date` | text | ✅ | Format `YYYY-MM-DD`, unique |
+| `imsak` | text | ❌ | Format `HH:mm` |
+| `subuh` | text | ✅ | Format `HH:mm` |
+| `terbit` | text | ❌ | Format `HH:mm` (bukan waktu sholat, cuma info) |
+| `dhuha` | text | ❌ | Format `HH:mm` |
+| `dzuhur` | text | ✅ | Format `HH:mm` |
+| `ashar` | text | ✅ | Format `HH:mm` |
+| `maghrib` | text | ✅ | Format `HH:mm` |
+| `isya` | text | ✅ | Format `HH:mm` |
+| `created` / `updated` | autodate | — | Timestamp otomatis |
+
+**Index:** unique pada `date`
+
+**Rules:**
+- List/View: publik (dibaca Display TV tanpa auth)
+- Create/Update/Delete: hanya admin (dipakai sync script pakai kredensial admin)
+
+**Catatan:** kalau tanggal hari ini belum ada di collection ini (sync belum pernah jalan / kehabisan data), Display TV otomatis fallback ke perhitungan offline (library `adhan`, sudut Kemenag RI) pakai `settings.sholat_latitude`/`sholat_longitude` — lihat `bpn_karawang_display`'s CLAUDE.md.
+
+---
+
 ## Relasi antar collection
 
 ```
