@@ -153,6 +153,26 @@ Jadwal sholat harian, di-sync dari [api.myquran.com](https://api.myquran.com) (s
 
 ---
 
+## `announcements` (base)
+
+Daftar pesan pengumuman terpisah buat running text Display TV — Admin kelola sebagai list (tambah/hapus/urutkan/aktif-nonaktifkan) lewat Aplikasi Loket, bukan satu field teks panjang. Display gabungin semua yang `is_active = true`, urut `sort_order`, jadi satu ticker berjalan.
+
+| Field | Tipe | Required | Keterangan |
+|---|---|---|---|
+| `id` | text | ✅ (auto) | ID record |
+| `text` | text | ✅ | Isi pesan (maks 500 karakter) |
+| `sort_order` | number | ❌ | Urutan tampil di ticker |
+| `is_active` | bool | ❌ | Ikut ditampilkan atau tidak |
+| `created` / `updated` | autodate | — | Timestamp otomatis |
+
+**Rules:**
+- List/View: publik (dibaca Display TV tanpa auth)
+- Create/Update/Delete: hanya admin
+
+**Catatan:** superseded `settings.display_running_text` (key lama itu sudah dihapus dari daftar field Pengaturan di Aplikasi Loket).
+
+---
+
 ## Relasi antar collection
 
 ```
