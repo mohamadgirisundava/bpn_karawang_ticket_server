@@ -41,7 +41,7 @@ Antrian tiket yang diambil pengunjung.
 | `taken_at` | date | ✅ | Waktu tiket diambil |
 | `called_at` | date | ❌ | Waktu dipanggil |
 | `completed_at` | date | ❌ | Waktu selesai dilayani |
-| `desk_number` | number | ❌ | Nomor meja saat dipanggil |
+| `desk_number` | number | ❌ | Nomor loket saat dipanggil |
 | `called_by` | relation → `users` | ❌ | Petugas yang memanggil |
 | `created` / `updated` | autodate | — | Timestamp otomatis |
 
@@ -55,7 +55,7 @@ Antrian tiket yang diambil pengunjung.
 
 ## `calls` (base)
 
-Riwayat pemanggilan tiket ke suatu loket/meja (log pemanggilan).
+Riwayat pemanggilan tiket ke suatu loket (log pemanggilan).
 
 | Field | Tipe | Required | Keterangan |
 |---|---|---|---|
@@ -64,7 +64,7 @@ Riwayat pemanggilan tiket ke suatu loket/meja (log pemanggilan).
 | `counter` | relation → `counters` | ✅ | Loket yang memanggil |
 | `queue_code` | text | ✅ | Kode antrian (denormalized) |
 | `counter_name` | text | ❌ | Nama counter (denormalized) |
-| `desk_number` | number | ✅ | Nomor meja |
+| `desk_number` | number | ✅ | Nomor loket |
 | `is_active` | bool | ❌ | Masih ditampilkan di layar panggilan atau tidak |
 | `called_at` | date | ✅ | Waktu panggil |
 | `created` / `updated` | autodate | — | Timestamp otomatis |
@@ -111,7 +111,7 @@ Akun petugas/admin.
 | `assigned_counter` | relation → `counters` | ❌ | Loket yang ditugaskan |
 | `is_on_duty` | bool | ❌ | Status sedang bertugas (shift berjalan) |
 | `is_active` | bool | ❌ | Akun aktif/nonaktif (dikontrol Admin). Nonaktif = tidak bisa login sama sekali. |
-| `desk_number` | number | ❌ | Nomor meja petugas |
+| `desk_number` | number | ❌ | Nomor loket petugas |
 | `verified` / `emailVisibility` | bool | — | System field auth |
 | `created` / `updated` | autodate | — | Timestamp otomatis |
 
